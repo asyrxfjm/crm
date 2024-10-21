@@ -1,22 +1,42 @@
 <script setup lang="ts">
-import GuestLayout from '@/Layouts/GuestLayout.vue';
-import InputError from '@/Components/InputError.vue';
-import InputLabel from '@/Components/InputLabel.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
-import TextInput from '@/Components/TextInput.vue';
-import { Head, useForm } from '@inertiajs/vue3';
-
-defineProps<{
-    status?: string;
-}>();
+import GuestLayout from "@/Layouts/GuestLayout.vue";
+import {
+    FormControl,
+    FormField,
+    FormItem,
+    FormMessage,
+} from "@/Components/ui/form";
+import { Card, CardContent, CardFooter } from "@/Components/ui/card";
+import { Input } from "@/Components/ui/input";
+import { Button } from "@/Components/ui/button";
+import { Head, useForm } from "@inertiajs/vue3";
+import { useForm as veeForm } from "vee-validate";
+import { toTypedSchema } from "@vee-validate/zod";
+import * as z from "zod";
 
 const form = useForm({
-    email: '',
+    email: "",
 });
 
-const submit = () => {
-    form.post(route('password.email'));
-};
+const formSchema = toTypedSchema(
+    z.object({
+        email: z.string().min(2).max(50),
+    })
+);
+
+const { handleSubmit, setFieldError } = veeForm({
+    validationSchema: formSchema,
+});
+
+const onSubmit = handleSubmit(() => {
+    form.post(route("login"), {
+        onError: (errors) => {
+            for (const [key, value] of Object.entries(errors)) {
+                setFieldError(key as "email", value);
+            }
+        },
+    });
+});
 </script>
 
 <template>
@@ -29,15 +49,37 @@ const submit = () => {
             you to choose a new one.
         </div>
 
-        <div
-            v-if="status"
-            class="mb-4 text-sm font-medium text-green-600"
-        >
-            {{ status }}
-        </div>
+        <form @submit.prevent="onSubmit">
+            <Card>
+                <CardContent class="pt-5 space-y-6">
+                    <FormField v-slot="{ componentField }" name="email">
+                        <FormItem>
+                            <FormControl>
+                                <Input
+                                    type="email"
+                                    placeholder="your@email.com"
+                                    v-bind="componentField"
+                                    v-model="form.email"
+                                    autocomplete="username"
+                                />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    </FormField>
+                </CardContent>
+                <CardFooter>
+                    <Button
+                        type="submit"
+                        class="w-full"
+                        :class="{ 'opacity-25': form.processing }"
+                        :disabled="form.processing"
+                    >
+                        Email Password Reset Link
+                    </Button>
+                </CardFooter>
+            </Card>
 
-        <form @submit.prevent="submit">
-            <div>
+            <!-- <div>
                 <InputLabel for="email" value="Email" />
 
                 <TextInput
@@ -60,7 +102,7 @@ const submit = () => {
                 >
                     Email Password Reset Link
                 </PrimaryButton>
-            </div>
+            </div> -->
         </form>
     </GuestLayout>
 </template>
