@@ -16,7 +16,7 @@ const componentName = page.component;
 
 <template>
     <div
-        class="hidden border-r bg-muted/40 lg:block lg:min-w-[220px] xl:min-w-[280px] min-h-full"
+        class="hidden border-r bg-muted/40 lg:block backdrop-blur lg:min-w-[220px] xl:min-w-[280px] min-h-full"
     >
         <div class="flex flex-col h-full max-h-screen gap-2">
             <div

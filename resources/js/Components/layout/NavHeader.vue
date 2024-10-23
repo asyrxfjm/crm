@@ -22,7 +22,7 @@ const componentName = page.component;
 
 <template>
     <header
-        class="flex items-center h-16 gap-1 px-4 border-b bg-muted/40 lg:px-6"
+        class="flex h-16 items-center gap-1 border-b bg-muted/40 backdrop-blur-md px-4 lg:h-[60px] lg:px-6"
     >
         <Sheet>
             <SheetTrigger as-child>
