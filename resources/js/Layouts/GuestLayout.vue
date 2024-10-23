@@ -23,7 +23,7 @@ import {
         <div>
             <Link href="/">
                 <ApplicationLogo
-                    class="h-20 w-20 fill-current dark:text-gray-500"
+                    class="h-20 w-20 fill-current dark:text-white"
                 />
             </Link>
         </div>

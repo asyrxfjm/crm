@@ -6,6 +6,7 @@ test('profile page is displayed', function () {
     $user = User::factory()->create();
 
     $response = $this
+        ->withSession(['auth.password_confirmed_at' => time()])
         ->actingAs($user)
         ->get('/profile');
 
@@ -16,6 +17,7 @@ test('profile information can be updated', function () {
     $user = User::factory()->create();
 
     $response = $this
+        ->withSession(['auth.password_confirmed_at' => time()])
         ->actingAs($user)
         ->patch('/profile', [
             'name' => 'Test User',
@@ -37,6 +39,7 @@ test('email verification status is unchanged when the email address is unchanged
     $user = User::factory()->create();
 
     $response = $this
+        ->withSession(['auth.password_confirmed_at' => time()])
         ->actingAs($user)
         ->patch('/profile', [
             'name' => 'Test User',
@@ -54,6 +57,7 @@ test('user can delete their account', function () {
     $user = User::factory()->create();
 
     $response = $this
+        ->withSession(['auth.password_confirmed_at' => time()])
         ->actingAs($user)
         ->delete('/profile', [
             'password' => 'password',
@@ -71,6 +75,7 @@ test('correct password must be provided to delete account', function () {
     $user = User::factory()->create();
 
     $response = $this
+        ->withSession(['auth.password_confirmed_at' => time()])
         ->actingAs($user)
         ->from('/profile')
         ->delete('/profile', [

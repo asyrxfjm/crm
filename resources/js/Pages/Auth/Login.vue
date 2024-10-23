@@ -27,7 +27,7 @@ defineProps<{
 const formSchema = toTypedSchema(
     z.object({
         email: z.string().min(2).max(50),
-        password: z.string().min(2).max(50),
+        password: z.string().min(8).max(50),
     })
 );
 
@@ -74,7 +74,7 @@ const form = useForm({
                                 <Input
                                     id="email"
                                     type="email"
-                                    placeholder="shadcn"
+                                    placeholder="your@email.com"
                                     v-bind="componentField"
                                     v-model="form.email"
                                 />
@@ -98,7 +98,6 @@ const form = useForm({
                                 <Input
                                     id="password"
                                     type="password"
-                                    placeholder="shadcn"
                                     v-bind="componentField"
                                     v-model="form.password"
                                 />

@@ -1,38 +1,128 @@
 <script setup lang="ts">
-import GuestLayout from '@/Layouts/GuestLayout.vue';
-import InputError from '@/Components/InputError.vue';
-import InputLabel from '@/Components/InputLabel.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
-import TextInput from '@/Components/TextInput.vue';
-import { Head, useForm } from '@inertiajs/vue3';
+import GuestLayout from "@/Layouts/GuestLayout.vue";
+import {
+    FormControl,
+    FormField,
+    FormItem,
+    FormMessage,
+} from "@/Components/ui/form";
+import { Card, CardContent, CardFooter } from "@/Components/ui/card";
+import { Input } from "@/Components/ui/input";
+import { Button } from "@/Components/ui/button";
+import { Head, useForm } from "@inertiajs/vue3";
+import { useForm as veeForm } from "vee-validate";
+import { toTypedSchema } from "@vee-validate/zod";
+import * as z from "zod";
+import { Label } from "@/Components/ui/label";
 
 const props = defineProps<{
     email: string;
     token: string;
 }>();
 
+const formSchema = toTypedSchema(
+    z
+        .object({
+            email: z.string().default(props.email),
+            password: z.string().min(8).max(50),
+            password_confirmation: z.string().min(8).max(50),
+        })
+        .refine((data) => data.password === data.password_confirmation, {
+            message: "Password must match",
+            path: ["password_confirmation"],
+        })
+);
+
+const { handleSubmit, setFieldError } = veeForm({
+    validationSchema: formSchema,
+});
+
 const form = useForm({
     token: props.token,
     email: props.email,
-    password: '',
-    password_confirmation: '',
+    password: "",
+    password_confirmation: "",
 });
 
-const submit = () => {
-    form.post(route('password.store'), {
+const onSubmit = handleSubmit(() => {
+    form.post(route("password.store"), {
         onFinish: () => {
-            form.reset('password', 'password_confirmation');
+            form.reset("password", "password_confirmation");
+        },
+        onError: (errors) => {
+            for (const [key, value] of Object.entries(errors)) {
+                setFieldError(key as "email", value);
+            }
         },
     });
-};
+});
 </script>
 
 <template>
     <GuestLayout>
         <Head title="Reset Password" />
 
-        <form @submit.prevent="submit">
-            <div>
+        <form @submit.prevent="onSubmit">
+            <Card>
+                <CardContent class="pt-5 space-y-4">
+                    <FormField v-slot="{ componentField }" name="email">
+                        <FormItem>
+                            <FormControl>
+                                <Label>Email</Label>
+                                <Input
+                                    type="email"
+                                    placeholder="your@email.com"
+                                    v-bind="componentField"
+                                    v-model="form.email"
+                                    autocomplete="username"
+                                    disabled
+                                />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    </FormField>
+                    <FormField v-slot="{ componentField }" name="password">
+                        <FormItem>
+                            <FormControl>
+                                <Label>Password</Label>
+                                <Input
+                                    type="password"
+                                    v-bind="componentField"
+                                    v-model="form.password"
+                                />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    </FormField>
+                    <FormField
+                        v-slot="{ componentField }"
+                        name="password_confirmation"
+                    >
+                        <FormItem>
+                            <FormControl>
+                                <Label>Password Confirmation</Label>
+                                <Input
+                                    type="password"
+                                    v-bind="componentField"
+                                    v-model="form.password_confirmation"
+                                />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    </FormField>
+                </CardContent>
+                <CardFooter>
+                    <Button
+                        type="submit"
+                        class="w-full"
+                        :class="{ 'opacity-25': form.processing }"
+                        :disabled="form.processing"
+                    >
+                        Reset Password
+                    </Button>
+                </CardFooter>
+            </Card>
+            <!-- <div>
                 <InputLabel for="email" value="Email" />
 
                 <TextInput
@@ -91,7 +181,7 @@ const submit = () => {
                 >
                     Reset Password
                 </PrimaryButton>
-            </div>
+            </div> -->
         </form>
     </GuestLayout>
 </template>

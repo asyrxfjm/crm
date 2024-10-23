@@ -29,7 +29,7 @@ const { handleSubmit, setFieldError } = veeForm({
 });
 
 const onSubmit = handleSubmit(() => {
-    form.post(route("login"), {
+    form.post(route("password.email"), {
         onError: (errors) => {
             for (const [key, value] of Object.entries(errors)) {
                 setFieldError(key as "email", value);
@@ -78,31 +78,6 @@ const onSubmit = handleSubmit(() => {
                     </Button>
                 </CardFooter>
             </Card>
-
-            <!-- <div>
-                <InputLabel for="email" value="Email" />
-
-                <TextInput
-                    id="email"
-                    type="email"
-                    class="mt-1 block w-full"
-                    v-model="form.email"
-                    required
-                    autofocus
-                    autocomplete="username"
-                />
-
-                <InputError class="mt-2" :message="form.errors.email" />
-            </div>
-
-            <div class="mt-4 flex items-center justify-end">
-                <PrimaryButton
-                    :class="{ 'opacity-25': form.processing }"
-                    :disabled="form.processing"
-                >
-                    Email Password Reset Link
-                </PrimaryButton>
-            </div> -->
         </form>
     </GuestLayout>
 </template>

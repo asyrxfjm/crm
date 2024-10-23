@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import GuestLayout from "@/Layouts/GuestLayout.vue";
-import { Head, Link, useForm } from "@inertiajs/vue3";
+import { Head, useForm } from "@inertiajs/vue3";
 import { useForm as veeForm } from "vee-validate";
 import { toTypedSchema } from "@vee-validate/zod";
 import * as z from "zod";
@@ -152,7 +152,7 @@ const onSubmit = handleSubmit(() => {
                         :disabled="form.processing"
                         :loading="form.processing"
                     >
-                        Login
+                        Sign Up
                     </Button>
                 </CardContent>
             </Card>
