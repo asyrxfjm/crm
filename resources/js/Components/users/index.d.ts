@@ -1,5 +1,5 @@
 type Filters = {
-    search: string;
-    sort: string;
-    sortBy: string;
+	search: string;
+	sort: string;
+	sortBy: string;
 };

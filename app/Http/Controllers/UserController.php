@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -35,6 +36,8 @@ class UserController extends Controller
         return Inertia::render('Users/Index', [
             'users' => $query->withQueryString(),
             'filters' => request()->only(['search', 'sort', 'sortBy']),
+            'message' => Session::get('message'),
+            'error' => Session::get('error'),
         ]);
     }
 
@@ -53,5 +56,14 @@ class UserController extends Controller
         ]));
 
         return back();
+    }
+
+    public function destroy(User $user): RedirectResponse
+    {
+        $user->delete();
+
+        Session::flash('message', 'User deleted successfully.');
+
+        return to_route('users.index');
     }
 }
