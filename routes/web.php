@@ -21,6 +21,8 @@ Route::middleware(['auth', 'password.confirm'])->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/users', [UserController::class, 'index'])->name('users.index');
+    Route::get('/users/{user}', [UserController::class, 'edit'])->name('users.edit');
+    Route::put('/users/{user}', [UserController::class, 'update'])->name('users.update');
 });
 
 require __DIR__.'/auth.php';

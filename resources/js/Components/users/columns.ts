@@ -2,27 +2,61 @@ import { User } from "@/types";
 import { ColumnDef } from "@tanstack/vue-table";
 import { h } from "vue";
 import Action from "./Action.vue";
-import { ArrowUpDown, ChevronDown } from "lucide-vue-next";
+import { ChevronUp, ArrowUpDown, ChevronDown } from "lucide-vue-next";
 import { Button } from "../ui/button";
 
 export const columns: ColumnDef<User>[] = [
     {
         accessorKey: "email",
         header: ({ column }) => {
+            const sorted = column.getIsSorted();
+
+            let variant = "ghost";
+            let icon = ArrowUpDown;
+
+            if (sorted === "asc") {
+                variant = "secondary";
+                icon = ChevronUp;
+            } else if (sorted === "desc") {
+                variant = "secondary";
+                icon = ChevronDown;
+            }
+
             return h(
                 Button,
                 {
-                    variant: "ghost",
-                    onClick: () =>
-                        column.toggleSorting(column.getIsSorted() === "asc"),
+                    variant: variant as any,
+                    onClick: () => column.toggleSorting(),
                 },
-                () => ["Email", h(ArrowUpDown, { class: "ml-2 h-4 w-4" })]
+                () => ["Email", h(icon, { class: "ml-2 h-4 w-4" })]
             );
         },
     },
     {
         accessorKey: "name",
-        header: () => h("div", "Full Name"),
+        header: ({ column }) => {
+            const sorted = column.getIsSorted();
+
+            let variant = "ghost";
+            let icon = ArrowUpDown;
+
+            if (sorted === "asc") {
+                variant = "secondary";
+                icon = ChevronUp;
+            } else if (sorted === "desc") {
+                variant = "secondary";
+                icon = ChevronDown;
+            }
+
+            return h(
+                Button,
+                {
+                    variant: variant as any,
+                    onClick: () => column.toggleSorting(),
+                },
+                () => ["Name", h(icon, { class: "ml-2 h-4 w-4" })]
+            );
+        },
     },
     {
         accessorKey: "email_verified_at",

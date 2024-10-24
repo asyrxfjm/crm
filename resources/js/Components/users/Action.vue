@@ -11,6 +11,7 @@ import {
 } from "@/Components/ui/dropdown-menu";
 import { User } from "@/types";
 import { MoreHorizontal } from "lucide-vue-next";
+import { Link } from "@inertiajs/vue3";
 
 defineProps<{
     user: User;
@@ -28,7 +29,9 @@ defineProps<{
         <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
+            <DropdownMenuItem as-child>
+                <Link :href="route('users.edit', user.id)"> View user </Link>
+            </DropdownMenuItem>
             <DropdownMenuItem>View payment details</DropdownMenuItem>
         </DropdownMenuContent>
     </DropdownMenu>

@@ -12,6 +12,14 @@ import {
     FormLabel,
     FormMessage,
 } from "@/Components/ui/form";
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+} from "@/Components/ui/card";
 
 defineProps<{
     mustVerifyEmail?: Boolean;
@@ -23,7 +31,7 @@ const user = usePage().props.auth.user;
 const formSchema = toTypedSchema(
     z.object({
         name: z.string().min(2).max(50),
-        email: z.string().min(2).max(50),
+        email: z.string().min(2).max(50).email(),
     })
 );
 
@@ -52,81 +60,84 @@ const onSubmit = handleSubmit(() => {
 </script>
 
 <template>
-    <section>
-        <header>
-            <h2 class="text-lg font-medium">Profile Information</h2>
-
-            <p class="mt-1 text-sm">
-                Update your account's profile information and email address.
-            </p>
-        </header>
-
-        <form @submit.prevent="onSubmit" class="space-y-4 mt-6">
-            <FormField v-slot="{ componentField }" name="name">
-                <FormItem>
-                    <FormLabel for="name">Name</FormLabel>
-                    <FormControl>
-                        <Input
-                            id="name"
-                            type="text"
-                            v-bind="componentField"
-                            v-model="form.name"
-                        />
-                    </FormControl>
-                    <FormMessage />
-                </FormItem>
-            </FormField>
-            <FormField v-slot="{ componentField }" name="email">
-                <FormItem>
-                    <FormLabel for="email">Email</FormLabel>
-                    <FormControl>
-                        <Input
-                            id="email"
-                            type="email"
-                            v-bind="componentField"
-                            v-model="form.email"
-                        />
-                    </FormControl>
-                    <FormMessage />
-                </FormItem>
-            </FormField>
-            <div v-if="mustVerifyEmail && user.email_verified_at === null">
-                <p class="mt-2 text-sm text-gray-800">
-                    Your email address is unverified.
-                    <Link
-                        :href="route('verification.send')"
-                        method="post"
-                        as="button"
-                        class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                    >
-                        Click here to re-send the verification email.
-                    </Link>
-                </p>
-
-                <div
-                    v-show="status === 'verification-link-sent'"
-                    class="mt-2 text-sm font-medium text-green-600"
-                >
-                    A new verification link has been sent to your email address.
-                </div>
-            </div>
-            <div class="flex items-center gap-4">
-                <Button :disabled="form.processing">Save</Button>
-
-                <Transition
-                    enter-active-class="transition ease-in-out"
-                    enter-from-class="opacity-0"
-                    leave-active-class="transition ease-in-out"
-                    leave-to-class="opacity-0"
-                >
-                    <p
-                        v-if="form.recentlySuccessful"
-                        class="text-sm text-gray-600"
-                    >
-                        Saved.
+    <form @submit.prevent="onSubmit">
+        <Card>
+            <CardHeader>
+                <CardTitle class="text-lg">Profile Information</CardTitle>
+                <CardDescription>
+                    Update your account's profile information and email address.
+                </CardDescription>
+            </CardHeader>
+            <CardContent class="space-y-4">
+                <FormField v-slot="{ componentField }" name="name">
+                    <FormItem>
+                        <FormLabel for="name">Name</FormLabel>
+                        <FormControl>
+                            <Input
+                                id="name"
+                                type="text"
+                                v-bind="componentField"
+                                v-model="form.name"
+                            />
+                        </FormControl>
+                        <FormMessage />
+                    </FormItem>
+                </FormField>
+                <FormField v-slot="{ componentField }" name="email">
+                    <FormItem>
+                        <FormLabel for="email">Email</FormLabel>
+                        <FormControl>
+                            <Input
+                                id="email"
+                                type="email"
+                                v-bind="componentField"
+                                v-model="form.email"
+                            />
+                        </FormControl>
+                        <FormMessage />
+                    </FormItem>
+                </FormField>
+                <div v-if="mustVerifyEmail && user.email_verified_at === null">
+                    <p class="mt-2 text-sm text-gray-800">
+                        Your email address is unverified.
+                        <Link
+                            :href="route('verification.send')"
+                            method="post"
+                            as="button"
+                            class="text-sm text-gray-600 underline rounded-md hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                        >
+                            Click here to re-send the verification email.
+                        </Link>
                     </p>
-                </Transition>
-            </div>
-        </form>
-    </section>
+
+                    <div
+                        v-show="status === 'verification-link-sent'"
+                        class="mt-2 text-sm font-medium text-green-600"
+                    >
+                        A new verification link has been sent to your email
+                        address.
+                    </div>
+                </div>
+            </CardContent>
+            <CardFooter>
+                <div class="flex items-center gap-4">
+                    <Button :disabled="form.processing">Save</Button>
+
+                    <Transition
+                        enter-active-class="transition ease-in-out"
+                        enter-from-class="opacity-0"
+                        leave-active-class="transition ease-in-out"
+                        leave-to-class="opacity-0"
+                    >
+                        <p
+                            v-if="form.recentlySuccessful"
+                            class="text-sm text-gray-600"
+                        >
+                            Saved.
+                        </p>
+                    </Transition>
+                </div>
+            </CardFooter>
+        </Card>
+    </form>
 </template>

@@ -12,6 +12,14 @@ import {
 } from "@/Components/ui/form";
 import { Button } from "@/Components/ui/button";
 import { Input } from "@/Components/ui/input";
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+} from "@/Components/ui/card";
 
 const formSchema = toTypedSchema(
     z
@@ -72,80 +80,87 @@ const onSubmit = handleSubmit(() => {
 </script>
 
 <template>
-    <section>
-        <header>
-            <h2 class="text-lg font-medium">Update Password</h2>
-
-            <p class="mt-1 text-sm">
-                Ensure your account is using a long, random password to stay
-                secure.
-            </p>
-        </header>
-
-        <form @submit.prevent="onSubmit" class="space-y-4 mt-6">
-            <FormField v-slot="{ componentField }" name="current_password">
-                <FormItem>
-                    <FormLabel for="current_password">
-                        Current Password
-                    </FormLabel>
-                    <FormControl>
-                        <Input
-                            id="current_password"
-                            type="password"
-                            v-bind="componentField"
-                            v-model="form.current_password"
-                        />
-                    </FormControl>
-                    <FormMessage />
-                </FormItem>
-            </FormField>
-            <FormField v-slot="{ componentField }" name="password">
-                <FormItem>
-                    <FormLabel for="password">Password</FormLabel>
-                    <FormControl>
-                        <Input
-                            id="password"
-                            type="password"
-                            v-bind="componentField"
-                            v-model="form.password"
-                        />
-                    </FormControl>
-                    <FormMessage />
-                </FormItem>
-            </FormField>
-            <FormField v-slot="{ componentField }" name="password_confirmation">
-                <FormItem>
-                    <FormLabel for="password_confirmation">
-                        Confirm Password
-                    </FormLabel>
-                    <FormControl>
-                        <Input
-                            id="password_confirmation"
-                            type="password"
-                            v-bind="componentField"
-                            v-model="form.password_confirmation"
-                        />
-                    </FormControl>
-                    <FormMessage />
-                </FormItem>
-            </FormField>
-            <div class="flex items-center gap-4">
-                <Button :disabled="form.processing">Save</Button>
-
-                <Transition
-                    enter-active-class="transition ease-in-out"
-                    enter-from-class="opacity-0"
-                    leave-active-class="transition ease-in-out"
-                    leave-to-class="opacity-0"
+    <form @submit.prevent="onSubmit">
+        <Card>
+            <CardHeader>
+                <CardTitle>
+                    <h2 class="text-lg">Update Password</h2>
+                </CardTitle>
+                <CardDescription>
+                    Ensure your account is using a long, random password to stay
+                    secure.
+                </CardDescription>
+            </CardHeader>
+            <CardContent class="space-y-4">
+                <FormField v-slot="{ componentField }" name="current_password">
+                    <FormItem>
+                        <FormLabel for="current_password">
+                            Current Password
+                        </FormLabel>
+                        <FormControl>
+                            <Input
+                                id="current_password"
+                                type="password"
+                                v-bind="componentField"
+                                v-model="form.current_password"
+                            />
+                        </FormControl>
+                        <FormMessage />
+                    </FormItem>
+                </FormField>
+                <FormField v-slot="{ componentField }" name="password">
+                    <FormItem>
+                        <FormLabel for="password">Password</FormLabel>
+                        <FormControl>
+                            <Input
+                                id="password"
+                                type="password"
+                                v-bind="componentField"
+                                v-model="form.password"
+                            />
+                        </FormControl>
+                        <FormMessage />
+                    </FormItem>
+                </FormField>
+                <FormField
+                    v-slot="{ componentField }"
+                    name="password_confirmation"
                 >
-                    <p
-                        v-if="form.recentlySuccessful"
-                        class="text-sm text-gray-600"
+                    <FormItem>
+                        <FormLabel for="password_confirmation">
+                            Confirm Password
+                        </FormLabel>
+                        <FormControl>
+                            <Input
+                                id="password_confirmation"
+                                type="password"
+                                v-bind="componentField"
+                                v-model="form.password_confirmation"
+                            />
+                        </FormControl>
+                        <FormMessage />
+                    </FormItem>
+                </FormField>
+            </CardContent>
+            <CardFooter>
+                <div class="flex items-center gap-4">
+                    <Button :disabled="form.processing">Save</Button>
+
+                    <Transition
+                        enter-active-class="transition ease-in-out"
+                        enter-from-class="opacity-0"
+                        leave-active-class="transition ease-in-out"
+                        leave-to-class="opacity-0"
                     >
-                        Saved.
-                    </p>
-                </Transition>
-            </div>
-        </form>
-    </section>
+                        <p
+                            v-if="form.recentlySuccessful"
+                            class="text-sm text-gray-600"
+                        >
+                            Saved.
+                        </p>
+                    </Transition>
+                </div>
+            </CardFooter>
+        </Card>
+    </form>
 </template>

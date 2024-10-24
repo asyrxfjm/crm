@@ -8,12 +8,7 @@ import {
     TableHeader,
     TableRow,
 } from "@/Components/ui/table";
-import {
-    FlexRender,
-    getCoreRowModel,
-    useVueTable,
-    getSortedRowModel,
-} from "@tanstack/vue-table";
+import { FlexRender, getCoreRowModel, useVueTable } from "@tanstack/vue-table";
 import { valueUpdater } from "@/lib/utils";
 import { Link as PaginateLink } from "@/types";
 import { Link, router } from "@inertiajs/vue3";
@@ -30,6 +25,9 @@ const props = defineProps<{
 }>();
 
 const sorting = ref<SortingState>([]);
+let search = ref(props.filters.search);
+let sort = ref(props.filters.sort);
+let sortBy = ref(props.filters.sortBy);
 
 const table = useVueTable({
     get data() {
@@ -39,22 +37,33 @@ const table = useVueTable({
         return props.columns;
     },
     getCoreRowModel: getCoreRowModel(),
-    getSortedRowModel: getSortedRowModel(),
     onSortingChange: (updaterOrValue) => valueUpdater(updaterOrValue, sorting),
     state: {
         get sorting() {
+            if (sorting.value.length > 0) {
+                sortBy.value = sorting.value[0].id;
+                sort.value = sorting.value[0].desc ? "desc" : "asc";
+            } else {
+                sort.value = "";
+                sortBy.value = "";
+            }
+
+            if (sort.value) {
+                triggerSearch();
+            }
+
             return sorting.value;
         },
     },
 });
 
-let search = ref(props.filters.search);
-
 const triggerSearch = useDebounceFn(() => {
     router.get(
-        "/users",
+        route("users.index"),
         {
             search: search.value,
+            sort: sort.value,
+            sortBy: sortBy.value,
         },
         {
             preserveState: true,

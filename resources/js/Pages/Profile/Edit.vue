@@ -4,6 +4,13 @@ import DeleteUserForm from "./Partials/DeleteUserForm.vue";
 import UpdatePasswordForm from "./Partials/UpdatePasswordForm.vue";
 import UpdateProfileInformationForm from "./Partials/UpdateProfileInformationForm.vue";
 import { Head } from "@inertiajs/vue3";
+import {
+    Breadcrumb,
+    BreadcrumbList,
+    BreadcrumbItem,
+    BreadcrumbSeparator,
+    BreadcrumbLink,
+} from "@/Components/ui/breadcrumb";
 
 defineProps<{
     mustVerifyEmail?: boolean;
@@ -15,7 +22,22 @@ defineProps<{
     <Head title="Profile" />
 
     <AuthenticatedLayout :center="true">
-        <div class="space-y-6 mx-auto max-w-xl">
+        <template #header>
+            <Breadcrumb>
+                <BreadcrumbList>
+                    <BreadcrumbItem>
+                        <BreadcrumbLink :href="route('dashboard')">
+                            Dashboard
+                        </BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                        <BreadcrumbPage> My Profile </BreadcrumbPage>
+                    </BreadcrumbItem>
+                </BreadcrumbList>
+            </Breadcrumb>
+        </template>
+        <div class="flex flex-col h-full max-w-2xl space-y-6">
             <UpdateProfileInformationForm />
             <UpdatePasswordForm />
             <DeleteUserForm />
