@@ -79,12 +79,18 @@ watch(search, () => {
 
 <template>
 	<div>
-		<div class="flex items-center pb-4">
+		<div class="flex items-center justify-between pb-4">
 			<Input
 				class="max-w-xs"
 				placeholder="Search by email, full name"
 				v-model="search"
 			/>
+			<Button
+				as-child
+				variant="secondary"
+			>
+				<Link :href="route('users.create')"> Create a new User</Link>
+			</Button>
 		</div>
 		<div class="border rounded-md">
 			<Table>

@@ -4,15 +4,5 @@
 	"trailingComma": "none",
 	"printWidth": 100,
 	"tabWidth": 4,
-	"singleAttributePerLine": true,
-	"plugins": ["@shufo/prettier-plugin-blade"],
-	"overrides": [
-		{
-			"files": ["*.blade.php"],
-			"options": {
-				"parser": "blade",
-				"tabWidth": 4
-			}
-		}
-	]
+	"singleAttributePerLine": true
 }

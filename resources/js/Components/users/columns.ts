@@ -59,17 +59,7 @@ export const columns: ColumnDef<User>[] = [
 		}
 	},
 	{
-		accessorKey: 'email_verified_at',
-		header: () => h('div', 'Verified At'),
-		cell: ({ row }) => {
-			const user = row.original;
-
-			return h('div', user.email_verified_at);
-		}
-	},
-	{
 		id: 'actions',
-		enableHiding: false,
 		cell: ({ row }) => {
 			const user = row.original;
 

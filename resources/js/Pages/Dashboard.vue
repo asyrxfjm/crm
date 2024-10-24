@@ -1,12 +1,6 @@
 <script setup lang="ts">
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import {
-	Breadcrumb,
-	BreadcrumbList,
-	BreadcrumbItem,
-	BreadcrumbSeparator,
-	BreadcrumbLink
-} from '@/Components/ui/breadcrumb';
+import { Breadcrumb, BreadcrumbList, BreadcrumbItem } from '@/Components/ui/breadcrumb';
 import { Head } from '@inertiajs/vue3';
 </script>
 

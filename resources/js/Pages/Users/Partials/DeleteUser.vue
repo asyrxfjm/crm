@@ -4,15 +4,8 @@ import { useForm } from '@inertiajs/vue3';
 import { useForm as veeForm } from 'vee-validate';
 import { toTypedSchema } from '@vee-validate/zod';
 import { z } from 'zod';
-import {
-	Card,
-	CardContent,
-	CardDescription,
-	CardFooter,
-	CardHeader,
-	CardTitle
-} from '@/Components/ui/card';
-import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/Components/ui/form';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/Components/ui/card';
+import { FormControl, FormField, FormItem, FormMessage } from '@/Components/ui/form';
 import {
 	Dialog,
 	DialogContent,
