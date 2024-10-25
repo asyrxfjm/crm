@@ -51,9 +51,7 @@ const form = useForm({
 			<Card>
 				<CardHeader>
 					<CardTitle class="text-2xl"> Login </CardTitle>
-					<CardDescription>
-						Enter your email below to login to your account
-					</CardDescription>
+					<CardDescription> Enter your email below to login to your account </CardDescription>
 				</CardHeader>
 				<CardContent class="space-y-4">
 					<FormField

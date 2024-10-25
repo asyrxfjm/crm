@@ -36,7 +36,7 @@ class UserController extends Controller
 
         return Inertia::render('Users/Index', [
             'users'   => $query->withQueryString(),
-            'filters' => request()->only(['search', 'sort', 'sortBy']),
+            'filters' => request()->only(['search', 'sort', 'sortBy', 'page']),
             'message' => Session::get('message'),
             'error'   => Session::get('error'),
         ]);

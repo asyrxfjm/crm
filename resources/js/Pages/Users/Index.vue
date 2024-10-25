@@ -6,7 +6,8 @@ import {
 	BreadcrumbList,
 	BreadcrumbItem,
 	BreadcrumbSeparator,
-	BreadcrumbLink
+	BreadcrumbLink,
+	BreadcrumbPage
 } from '@/Components/ui/breadcrumb';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { PaginateMeta, User } from '@/types';

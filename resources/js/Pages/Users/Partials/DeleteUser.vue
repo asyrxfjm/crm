@@ -56,9 +56,7 @@ const submit = handleSubmit(() => {
 
 				form.reset(firstError as 'email');
 
-				const el: HTMLInputElement | null = document.querySelector(
-					`[name="${firstError}"]`
-				);
+				const el: HTMLInputElement | null = document.querySelector(`[name="${firstError}"]`);
 
 				el?.scrollIntoView({
 					behavior: 'smooth'
@@ -92,9 +90,9 @@ const closeModal = () => {
 				<h2 class="text-lg">Delete Account</h2>
 			</CardTitle>
 			<CardDescription>
-				Once the account is deleted, all of its resources and data will be permanently
-				deleted. Before deleting the account, please download any data or information that
-				you wish to retain.
+				Once the account is deleted, all of its resources and data will be permanently deleted.
+				Before deleting the account, please download any data or information that you wish to
+				retain.
 			</CardDescription>
 		</CardHeader>
 		<CardContent>
@@ -109,8 +107,8 @@ const closeModal = () => {
 					<DialogHeader>
 						<DialogTitle> Are you sure you want to delete this account? </DialogTitle>
 						<DialogDescription>
-							Once the account is deleted, all of its resources and data will be
-							permanently deleted. Please enter
+							Once the account is deleted, all of its resources and data will be permanently
+							deleted. Please enter
 							<b>
 								<i>{{ user.email }}</i>
 							</b>

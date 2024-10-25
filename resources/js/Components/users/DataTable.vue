@@ -75,11 +75,15 @@ const triggerSearch = useDebounceFn(() => {
 watch(search, () => {
 	triggerSearch();
 });
+
+console.log(props.links);
 </script>
 
 <template>
 	<div>
-		<div class="flex items-center justify-between pb-4">
+		<div
+			class="flex flex-col items-start justify-between pb-4 md:flex-row md:items-center gap-y-3 md:gap-y-0"
+		>
 			<Input
 				class="max-w-xs"
 				placeholder="Search by email, full name"
@@ -143,7 +147,7 @@ watch(search, () => {
 				</TableBody>
 			</Table>
 		</div>
-		<div class="flex items-center justify-end py-4 space-x-1">
+		<div class="items-center justify-end hidden py-2 space-x-1 md:flex">
 			<template
 				v-for="link in links"
 				:key="link.url"
@@ -169,6 +173,53 @@ watch(search, () => {
 					size="sm"
 				/>
 			</template>
+		</div>
+		<div class="flex items-center justify-between py-2 md:hidden">
+			<div>
+				<Button
+					size="sm"
+					as-child
+					variant="default"
+					v-if="filters.page > 1"
+				>
+					<Link
+						:href="links[0].url"
+						preserve-scroll
+						v-html="`&laquo; Previous`"
+					/>
+				</Button>
+
+				<Button
+					size="sm"
+					v-html="`&laquo; Previous`"
+					variant="ghost"
+					v-else
+					disabled
+				>
+				</Button>
+			</div>
+			<div>
+				<Button
+					size="sm"
+					variant="default"
+					as-child
+					v-if="filters.page >= 1 && filters.page < links.length - 2"
+				>
+					<Link
+						:href="links[Number(filters.page) + 1].url"
+						preserve-scroll
+						v-html="`Next &raquo;`"
+					/>
+				</Button>
+				<Button
+					size="sm"
+					v-html="`Next &raquo;`"
+					variant="ghost"
+					v-else
+					disabled
+				>
+				</Button>
+			</div>
 		</div>
 	</div>
 </template>

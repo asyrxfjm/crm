@@ -46,18 +46,13 @@ const onSubmit = handleSubmit(() => {
 		},
 		onError: (errors) => {
 			for (const [key, value] of Object.entries(errors)) {
-				setFieldError(
-					key as 'current_password' | 'password' | 'password_confirmation',
-					value
-				);
+				setFieldError(key as 'current_password' | 'password' | 'password_confirmation', value);
 
 				const firstError = Object.keys(errors)[0];
 
 				form.reset(firstError as 'current_password' | 'password');
 
-				const el: HTMLInputElement | null = document.querySelector(
-					`[name="${firstError}"]`
-				);
+				const el: HTMLInputElement | null = document.querySelector(`[name="${firstError}"]`);
 
 				el?.scrollIntoView({
 					behavior: 'smooth'

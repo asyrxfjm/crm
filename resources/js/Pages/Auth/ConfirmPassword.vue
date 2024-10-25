@@ -43,8 +43,7 @@ const onSubmit = handleSubmit(() => {
 			<CardHeader>
 				<CardTitle class="text-2xl"> Confirm Password </CardTitle>
 				<CardDescription>
-					This is a secure area of the application. Please confirm your password before
-					continuing.
+					This is a secure area of the application. Please confirm your password before continuing.
 				</CardDescription>
 			</CardHeader>
 			<CardContent>
