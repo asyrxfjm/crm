@@ -76,8 +76,6 @@ const triggerSearch = useDebounceFn(() => {
 watch(search, () => {
 	triggerSearch();
 });
-
-console.log(props.links);
 </script>
 
 <template>

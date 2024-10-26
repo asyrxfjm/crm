@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\User;
+use Modules\User\Models\User;
 
 test('profile page is displayed', function () {
     $user = User::factory()->create();
@@ -20,7 +20,7 @@ test('profile information can be updated', function () {
         ->withSession(['auth.password_confirmed_at' => time()])
         ->actingAs($user)
         ->patch('/profile', [
-            'name' => 'Test User',
+            'name'  => 'Test User',
             'email' => 'test@example.com',
         ]);
 
@@ -42,7 +42,7 @@ test('email verification status is unchanged when the email address is unchanged
         ->withSession(['auth.password_confirmed_at' => time()])
         ->actingAs($user)
         ->patch('/profile', [
-            'name' => 'Test User',
+            'name'  => 'Test User',
             'email' => $user->email,
         ]);
 

@@ -1,17 +1,18 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Modules\User\Http\Controllers;
 
-use App\Models\User;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Inertia\Response;
+use Modules\User\Http\Requests\StoreRequest;
+use Modules\User\Http\Requests\UpdateRequest;
+use Modules\User\Models\User;
 
 class UserController extends Controller
 {
@@ -32,8 +33,6 @@ class UserController extends Controller
             ->where('email', '!=', Auth::user()->email)
             ->paginate();
 
-        Log::info(request()->all());
-
         return Inertia::render('Users/Index', [
             'users'   => $query->withQueryString(),
             'filters' => request()->only(['search', 'sort', 'sortBy', 'page']),
@@ -47,14 +46,9 @@ class UserController extends Controller
         return Inertia::render('Users/Create');
     }
 
-    public function store(Request $request): RedirectResponse
+    public function store(StoreRequest $request): RedirectResponse
     {
-        $data = $request->validate([
-            'name'  => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-        ]);
-
-        User::create($data + ['password' => bcrypt(Str::random(16))]);
+        User::create($request->validated() + ['password' => bcrypt(Str::random(16))]);
 
         Session::flash('message', 'User created successfully.');
 
@@ -68,12 +62,9 @@ class UserController extends Controller
         ]);
     }
 
-    public function update(User $user, Request $request): RedirectResponse
+    public function update(User $user, UpdateRequest $request): RedirectResponse
     {
-        $user->update($request->validate([
-            'name'  => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,'.$user->id],
-        ]));
+        $user->update($request->validated());
 
         return back();
     }

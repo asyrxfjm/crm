@@ -25,7 +25,7 @@ const componentName = page.component;
 					class="flex items-center gap-2 font-semibold"
 				>
 					<ApplicationLogo class="fill-current w-7 h-7 dark:text-white" />
-					<span class="">KotakHitam</span>
+					<span class="">ConnectWise</span>
 				</Link>
 			</div>
 			<div class="flex-1">
